@@ -1,6 +1,6 @@
 package com.example.project_spring_boot.controllers;
 
-import com.example.project_spring_boot.dto.GroupRequest;
+
 import com.example.project_spring_boot.dto.SimpleResponse;
 import com.example.project_spring_boot.models.Group;
 import com.example.project_spring_boot.services.GroupService;
@@ -27,10 +27,10 @@ public class GroupController {
         return groupService.findById(id);
     }
 
-    @PostMapping("/save")
-    public Group save(@RequestBody GroupRequest groupRequest) {
-        return groupService.save(groupRequest);
-    }
+//    @PostMapping("/save")
+//    public Group save(@RequestBody GroupRequest groupRequest) {
+//        return groupService.save(groupRequest);
+//    }
 
     @DeleteMapping("/delete/{id}")
     public SimpleResponse delete(@PathVariable Long id) {
@@ -38,10 +38,10 @@ public class GroupController {
 
     }
 
-    @PutMapping("/update/{id}")
-    public Group update(@PathVariable Long id,@RequestBody GroupRequest groupRequest) {
-        return groupService.update(id, groupRequest);
-    }
+//    @PutMapping("/update/{id}")
+//    public Group update(@PathVariable Long id,@RequestBody GroupRequest groupRequest) {
+//        return groupService.update(id, groupRequest);
+//    }
 
 
 }

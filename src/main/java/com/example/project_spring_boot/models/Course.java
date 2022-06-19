@@ -1,17 +1,13 @@
 package com.example.project_spring_boot.models;
 
-import com.example.project_spring_boot.dto.CourseRequest;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.example.project_spring_boot.dto.CourseDto;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
 @Table(name = "courses")
@@ -45,10 +41,13 @@ public class Course {
         this.courseName = courseName;
         this.duration = duration;
     }
-    public static Course from(CourseRequest courseRequest){
+    public void removeCompany(){
+        this.company=null;
+    }
+    public static Course from(CourseDto courseDto){
         Course course = new Course();
-        course.setCourseName(courseRequest.getCourseName());
-        course.setDuration(courseRequest.getDuration());
+        course.setCourseName(courseDto.getCourseName());
+        course.setDuration(courseDto.getDuration());
         return course;
     }
 }

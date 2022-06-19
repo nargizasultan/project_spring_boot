@@ -1,11 +1,11 @@
 package com.example.project_spring_boot.controllers;
 
-import com.example.project_spring_boot.dto.CompanyRequest;
-import com.example.project_spring_boot.dto.CourseRequest;
+import com.example.project_spring_boot.dto.CompanyDto;
+
 import com.example.project_spring_boot.dto.SimpleResponse;
 
 import com.example.project_spring_boot.models.Company;
-import com.example.project_spring_boot.models.Course;
+
 import com.example.project_spring_boot.services.CompanyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,24 +25,24 @@ public class CompanyController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<CompanyRequest> save(@RequestBody final CompanyRequest request) {
-        Company company = companyService.save(Company.from(request));
-        return new ResponseEntity<>(CompanyRequest.from(company), HttpStatus.OK);
+    public ResponseEntity<CompanyDto> save(@RequestBody final CompanyDto companyDto) {
+        Company company = companyService.save(Company.from(companyDto));
+        return new ResponseEntity<>(CompanyDto.from(company), HttpStatus.OK);
 
     }
 
     @GetMapping
-    public ResponseEntity<List<CompanyRequest>> getAllCompanies() {
+    public ResponseEntity<List<CompanyDto>> getAllCompanies() {
         List<Company> companies = companyService.findAllCompanies();
-        List<CompanyRequest>companyRequests=companies.stream().map(CompanyRequest::from).collect(Collectors.toList());
-        return new ResponseEntity<>(companyRequests, HttpStatus.OK);
+        List<CompanyDto>companyDto=companies.stream().map(CompanyDto::from).collect(Collectors.toList());
+        return new ResponseEntity<>(companyDto, HttpStatus.OK);
 
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<CompanyRequest> findById(@PathVariable final Long id) {
+    public ResponseEntity<CompanyDto> findById(@PathVariable final Long id) {
         Company company = companyService.findByCompanyId(id);
-        return new ResponseEntity<>(CompanyRequest.from(company), HttpStatus.OK);
+        return new ResponseEntity<>(CompanyDto.from(company), HttpStatus.OK);
     }
 
 
@@ -53,20 +53,20 @@ public class CompanyController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<CompanyRequest> updateCompany(@PathVariable Long id, @RequestBody final CompanyRequest companyRequest) {
-        Company update = companyService.update(id, Company.from(companyRequest));
-        return new ResponseEntity<>(CompanyRequest.from(update), HttpStatus.OK);
+    public ResponseEntity<CompanyDto> updateCompany(@PathVariable Long id, @RequestBody final CompanyDto companyDto) {
+        Company update = companyService.update(id, Company.from(companyDto));
+        return new ResponseEntity<>(CompanyDto.from(update), HttpStatus.OK);
     }
 
     @PostMapping("/{companyId}/courses/{courseId}/add")
-    public ResponseEntity<CompanyRequest> addGroupToCompany(@PathVariable final Long companyId, @PathVariable final Long courseId) {
+    public ResponseEntity<CompanyDto> addGroupToCompany(@PathVariable final Long companyId, @PathVariable final Long courseId) {
         Company company = companyService.addCourseToCompany(companyId, courseId);
-        return new ResponseEntity<>(CompanyRequest.from(company), HttpStatus.OK);
+        return new ResponseEntity<>(CompanyDto.from(company), HttpStatus.OK);
     }
     @DeleteMapping("/{companyId}/courses/{courseId}/remove")
-    public ResponseEntity<CompanyRequest> removeGroupFromCompany(@PathVariable final Long companyId, @PathVariable final Long courseId) {
+    public ResponseEntity<CompanyDto> removeGroupFromCompany(@PathVariable final Long companyId, @PathVariable final Long courseId) {
         Company company = companyService.removeCourseFromCompany(companyId, courseId);
-        return new ResponseEntity<>(CompanyRequest.from(company), HttpStatus.OK);
+        return new ResponseEntity<>(CompanyDto.from(company), HttpStatus.OK);
     }
 
 

@@ -1,18 +1,17 @@
 package com.example.project_spring_boot.models;
 
-import com.example.project_spring_boot.dto.CompanyRequest;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.AllArgsConstructor;
+import com.example.project_spring_boot.dto.CompanyDto;
+
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.CascadeType.REMOVE;
+
 
 
 @Entity
@@ -47,10 +46,10 @@ public class Company {
         this.companyName = companyName;
         this.locatedCountry = locatedCountry;
     }
-    public static Company from(CompanyRequest companyRequest){
+    public static Company from(CompanyDto companyDto){
         Company company = new Company();
-        company.setCompanyName(companyRequest.getCompanyName());
-        company.setLocatedCountry(companyRequest.getLocatedCountry());
+        company.setCompanyName(companyDto.getCompanyName());
+        company.setLocatedCountry(companyDto.getLocatedCountry());
         return company;
     }
 }

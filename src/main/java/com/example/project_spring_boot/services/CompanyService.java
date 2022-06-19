@@ -1,30 +1,25 @@
 package com.example.project_spring_boot.services;
 
-import com.example.project_spring_boot.dto.CompanyRequest;
-import com.example.project_spring_boot.dto.SimpleResponse;
 
+import com.example.project_spring_boot.dto.SimpleResponse;
 import com.example.project_spring_boot.exceptions.CompanyNotFoundException;
 import com.example.project_spring_boot.exceptions.CourseIsAlreadyAssignedException;
 import com.example.project_spring_boot.models.Company;
 import com.example.project_spring_boot.models.Course;
-
 import com.example.project_spring_boot.repositories.CompanyRepository;
-
 import com.example.project_spring_boot.repositories.CourseRepository;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
     private final CompanyRepository companyRepository;
-//    private final CourseService courseService;
+
     private final CourseRepository courseRepository;
 
     public List<Company> findAllCompanies() {
@@ -61,7 +56,7 @@ public class CompanyService {
 
     @Transactional
     public Company addCourseToCompany(Long companyId, Long courseId) {
-        Company company = companyRepository.getById(companyId);
+        Company company = findByCompanyId(companyId);
         Course course = courseRepository.getById(courseId);
         if (Objects.nonNull(course.getCompany())) {
             throw new CourseIsAlreadyAssignedException(courseId, course.getCompany().getId());
@@ -72,7 +67,7 @@ public class CompanyService {
     }
 
     @Transactional
-//    because we are not using the save method from the repo
+
     public Company removeCourseFromCompany(Long companyId, Long courseId) {
         Company company = findByCompanyId(companyId);
         Course course = courseRepository.getById(courseId);
