@@ -1,6 +1,6 @@
 package com.example.project_spring_boot.models;
 
-import com.example.project_spring_boot.dto.CompanyDto;
+import com.example.project_spring_boot.dto.CompanyRequestDto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,8 +27,7 @@ public class Company {
     private String companyName;
     private String locatedCountry;
 
-    @OneToMany( cascade =ALL)
-    @JoinColumn(name = "course_id")
+    @OneToMany( cascade =ALL,mappedBy = "company")
     private List<Course> courses = new ArrayList<>();
 
     public Company() {
@@ -46,11 +45,6 @@ public class Company {
         this.companyName = companyName;
         this.locatedCountry = locatedCountry;
     }
-    public static Company from(CompanyDto companyDto){
-        Company company = new Company();
-        company.setCompanyName(companyDto.getCompanyName());
-        company.setLocatedCountry(companyDto.getLocatedCountry());
-        return company;
-    }
+
 }
 

@@ -21,5 +21,13 @@ public class Teacher {
     @OneToOne
     private Course course;
 
+    public Teacher(String firstName, String email, String lastName) {
+        this.firstName = firstName;
+        this.email = email;
+        this.lastName = lastName;
+    }
 
+    public Teacher() {
+
+    }
 }

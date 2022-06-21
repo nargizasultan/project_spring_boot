@@ -1,18 +1,19 @@
 package com.example.project_spring_boot.services;
 
 
+import com.example.project_spring_boot.dto.CompanyRequestDto;
+import com.example.project_spring_boot.dto.CompanyResponse;
 import com.example.project_spring_boot.dto.SimpleResponse;
 import com.example.project_spring_boot.exceptions.CompanyNotFoundException;
-import com.example.project_spring_boot.exceptions.CourseIsAlreadyAssignedException;
 import com.example.project_spring_boot.models.Company;
-import com.example.project_spring_boot.models.Course;
 import com.example.project_spring_boot.repositories.CompanyRepository;
 import com.example.project_spring_boot.repositories.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -20,20 +21,22 @@ import java.util.Objects;
 public class CompanyService {
     private final CompanyRepository companyRepository;
 
-    private final CourseRepository courseRepository;
 
-    public List<Company> findAllCompanies() {
-        return companyRepository.findAll();
+
+    public List<CompanyResponse> findAllCompanies() {
+        return companyRepository.findAll().stream().map(CompanyResponse::from)
+                .collect(Collectors.toList());
     }
 
-
-    public Company findByCompanyId(Long id) {
-        return companyRepository.findById(id).orElseThrow(() -> new CompanyNotFoundException());
+    public CompanyResponse findByCompanyId(Long id) {
+        Company company = companyRepository.findById(id).orElseThrow();
+        return CompanyResponse.from(company);
     }
 
-    public Company save(Company company) {
-
-        return companyRepository.save(company);
+    public CompanyResponse save(CompanyRequestDto companyRequestDto) {
+        return CompanyResponse.from(companyRepository
+                .save(new Company(companyRequestDto
+                        .getCompanyName(), companyRequestDto.getLocatedCountry())));
     }
 
     public SimpleResponse deleteById(Long id) {
@@ -47,31 +50,10 @@ public class CompanyService {
     }
 
     @Transactional
-    public Company update(Long id, Company company) {
-        Company com = findByCompanyId(id);
-        com.setCompanyName(company.getCompanyName());
-        com.setLocatedCountry(company.getLocatedCountry());
-        return com;
-    }
-
-    @Transactional
-    public Company addCourseToCompany(Long companyId, Long courseId) {
-        Company company = findByCompanyId(companyId);
-        Course course = courseRepository.getById(courseId);
-        if (Objects.nonNull(course.getCompany())) {
-            throw new CourseIsAlreadyAssignedException(courseId, course.getCompany().getId());
-        }
-        company.setCourse(course);
-        course.setCompany(company);
-        return company;
-    }
-
-    @Transactional
-
-    public Company removeCourseFromCompany(Long companyId, Long courseId) {
-        Company company = findByCompanyId(companyId);
-        Course course = courseRepository.getById(courseId);
-        company.removeCourse(course);
-        return company;
+    public CompanyResponse update(Long id, CompanyRequestDto companyRequestDto) {
+        Company company = companyRepository.findById(id).get();
+        company.setCompanyName(companyRequestDto.getCompanyName());
+        company.setLocatedCountry(companyRequestDto.getLocatedCountry());
+        return CompanyResponse.from(company);
     }
 }

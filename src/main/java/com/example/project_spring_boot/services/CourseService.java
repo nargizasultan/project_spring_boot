@@ -1,45 +1,55 @@
 package com.example.project_spring_boot.services;
 
 
+import com.example.project_spring_boot.dto.CourseRequestDto;
+import com.example.project_spring_boot.dto.CourseResponse;
 import com.example.project_spring_boot.dto.SimpleResponse;
 
-import com.example.project_spring_boot.exceptions.CompanyIsAlreadyAssignedException;
+import com.example.project_spring_boot.exceptions.CompanyNotFoundException;
 import com.example.project_spring_boot.exceptions.CourseNotFoundException;
-import com.example.project_spring_boot.models.Company;
+
 import com.example.project_spring_boot.models.Course;
+
 import com.example.project_spring_boot.repositories.CompanyRepository;
 import com.example.project_spring_boot.repositories.CourseRepository;
+import com.example.project_spring_boot.repositories.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
 public class CourseService {
 
     private final CourseRepository courseRepository;
+
     private final CompanyRepository companyRepository;
 
-    public List<Course> findAll() {
-        return courseRepository.findAll();
+    public List<CourseResponse> findAll() {
+        return courseRepository.findAll().stream().map(CourseResponse::from).collect(Collectors.toList());
     }
 
-    public Course findById(Long id) {
-        return courseRepository.findById(id).orElseThrow(() -> new CourseNotFoundException());
+    public CourseResponse findById(Long id) {
+        return CourseResponse.from(courseRepository.findById(id)
+                .orElseThrow(CourseNotFoundException::new));
     }
 
-    public Course save(Course course) {
-
-       return courseRepository.save(course);
+    public CourseResponse save(CourseRequestDto courseRequestDto) {
+        Course course = new Course(courseRequestDto.getCourseName(), courseRequestDto.getDuration());
+        course.setCompany(companyRepository.findById(courseRequestDto.getCompanyId()).orElseThrow(CompanyNotFoundException::new));
+        courseRepository.save(course);
+        return CourseResponse.from(course);
     }
-    public SimpleResponse deleteById(Long id){
+
+    public SimpleResponse deleteById(Long id) {
         boolean exists = courseRepository.existsById(id);
-        if(!exists){
-            throw  new CourseNotFoundException();
+        if (!exists) {
+            throw new CourseNotFoundException();
 
         }
         courseRepository.deleteById(id);
@@ -47,32 +57,12 @@ public class CourseService {
     }
 
     @Transactional
-    public Course update(Long id, Course course){
-        Course course1 = findById(id);
-        course1.setCourseName(course.getCourseName());
-        course1.setDuration(course.getDuration());
-        return course1;
+    public CourseResponse update(CourseRequestDto courseRequestDto, Long id) {
+        Course course1 = courseRepository.findById(id).orElseThrow();
+        course1.setCourseName(courseRequestDto.getCourseName());
+        course1.setDuration(courseRequestDto.getDuration());
+        return CourseResponse.from(course1);
     }
-//    @Transactional
-//    public Course addCompanyToCourse(Long courseId, Long companyId){
-//
-//        Course course =findById(courseId);
-//        Company company = companyRepository.getById(companyId);
-//
-//
-//        if(Objects.nonNull(company)){
-//            throw new CompanyIsAlreadyAssignedException(companyId);
-//        }
-//        company.setCourse(course);
-//        course.setCompany(company);
-//        return course;
-//    }
-//    @Transactional
-//    public Course removeCompanyFromCourse(Long courseId){
-//        Course course = findById(courseId);
-//        course.removeCompany();
-//        return course;
-//
-//    }
+
 
 }
