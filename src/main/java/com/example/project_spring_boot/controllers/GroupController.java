@@ -1,13 +1,15 @@
 package com.example.project_spring_boot.controllers;
 
 
-import com.example.project_spring_boot.dto.GroupRequestDto;
-import com.example.project_spring_boot.dto.GroupResponse;
-import com.example.project_spring_boot.dto.SimpleResponse;
+import com.example.project_spring_boot.dto.group.GroupRequestDto;
+import com.example.project_spring_boot.dto.group.GroupResponse;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
 import com.example.project_spring_boot.services.GroupService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequestMapping("/api/groups")
 @RequiredArgsConstructor
 @CrossOrigin
+@PreAuthorize("hasAnyAuthority('ADMIN', 'BOSS')")
+@Tag(name="Group API", description = "User with role admin and boss can add, update, delete or get all groups")
 public class GroupController {
     private final GroupService groupService;
 

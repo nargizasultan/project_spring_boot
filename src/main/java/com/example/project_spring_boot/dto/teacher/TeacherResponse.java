@@ -1,4 +1,4 @@
-package com.example.project_spring_boot.dto;
+package com.example.project_spring_boot.dto.teacher;
 
 import com.example.project_spring_boot.models.Teacher;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.project_spring_boot.dto;
+package com.example.project_spring_boot.dto.delete;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

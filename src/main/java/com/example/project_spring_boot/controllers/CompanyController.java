@@ -1,20 +1,24 @@
 package com.example.project_spring_boot.controllers;
 
-import com.example.project_spring_boot.dto.CompanyRequestDto;
+import com.example.project_spring_boot.dto.company.CompanyRequestDto;
 
-import com.example.project_spring_boot.dto.CompanyResponse;
-import com.example.project_spring_boot.dto.SimpleResponse;
+import com.example.project_spring_boot.dto.company.CompanyResponse;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
 
 
 import com.example.project_spring_boot.services.CompanyService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/companies")
+@PreAuthorize("hasAuthority('BOSS')")
+@Tag(name = "Company API", description ="User with role boss can add,update, delete or get all companies")
 
 public class CompanyController {
     private final CompanyService companyService;

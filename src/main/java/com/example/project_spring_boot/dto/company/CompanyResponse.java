@@ -1,7 +1,6 @@
-package com.example.project_spring_boot.dto;
+package com.example.project_spring_boot.dto.company;
 
 import com.example.project_spring_boot.models.Company;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 

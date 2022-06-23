@@ -1,6 +1,5 @@
-package com.example.project_spring_boot.dto;
+package com.example.project_spring_boot.dto.student;
 
-import com.example.project_spring_boot.models.Student;
 import lombok.Getter;
 import lombok.Setter;
 

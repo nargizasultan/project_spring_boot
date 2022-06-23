@@ -1,13 +1,15 @@
 package com.example.project_spring_boot.controllers;
 
 
-import com.example.project_spring_boot.dto.CourseRequestDto;
-import com.example.project_spring_boot.dto.CourseResponse;
-import com.example.project_spring_boot.dto.SimpleResponse;
+import com.example.project_spring_boot.dto.course.CourseRequestDto;
+import com.example.project_spring_boot.dto.course.CourseResponse;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
 import com.example.project_spring_boot.services.CourseService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/courses")
 @RequiredArgsConstructor
+@PreAuthorize("hasAnyAuthority('ADMIN', 'BOSS')")
+@Tag(name="Course API", description = "User with role admin and boss can add, update, delete or get all courses")
 public class CourseController {
     private final CourseService courseService;
 

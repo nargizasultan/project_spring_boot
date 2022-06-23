@@ -1,6 +1,6 @@
 package com.example.project_spring_boot.models;
 
-import com.example.project_spring_boot.dto.CourseRequestDto;
+import com.example.project_spring_boot.dto.course.CourseRequestDto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.REMOVE;
 
 @Entity
@@ -28,7 +29,7 @@ public class Course {
     private int duration;
     @ManyToOne
     private Company company;
-    @ManyToMany(mappedBy = "courses", cascade = {REMOVE})
+    @ManyToMany(mappedBy = "courses", cascade = {MERGE})
     private List<Group> groups = new ArrayList<>();
 
     @OneToOne(mappedBy = "course",

@@ -1,10 +1,14 @@
 package com.example.project_spring_boot.controllers;
 
-import com.example.project_spring_boot.dto.*;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
+import com.example.project_spring_boot.dto.teacher.TeacherRequestDto;
+import com.example.project_spring_boot.dto.teacher.TeacherResponse;
 import com.example.project_spring_boot.services.TeacherService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +16,8 @@ import java.util.List;
 @RequestMapping("/api/teachers")
 @RequiredArgsConstructor
 @CrossOrigin
+@PreAuthorize("hasAnyAuthority( 'BOSS')")
+@Tag(name="Teacher API", description = "User with role  boss can add, update, delete or get all teachers")
 public class TeacherController {
     private final TeacherService teacherService;
     @PostMapping("/save")

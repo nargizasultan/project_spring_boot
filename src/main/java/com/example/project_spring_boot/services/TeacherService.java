@@ -1,9 +1,10 @@
 package com.example.project_spring_boot.services;
 
-import com.example.project_spring_boot.dto.*;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
+import com.example.project_spring_boot.dto.teacher.TeacherRequestDto;
+import com.example.project_spring_boot.dto.teacher.TeacherResponse;
 import com.example.project_spring_boot.exceptions.CourseNotFoundException;
 import com.example.project_spring_boot.exceptions.TeacherNotFoundException;
-import com.example.project_spring_boot.models.Course;
 import com.example.project_spring_boot.models.Teacher;
 import com.example.project_spring_boot.repositories.CourseRepository;
 import com.example.project_spring_boot.repositories.TeacherRepository;
@@ -48,6 +49,7 @@ public class TeacherService {
        teacher.setEmail(teacherRequestDto.getEmail());
        teacher.setFirstName(teacherRequestDto.getFirstName());
        teacher.setLastName(teacherRequestDto.getLastName());
+       teacher.setCourse(courseRepository.findById(teacherRequestDto.getCourseId()).orElseThrow(CourseNotFoundException::new));
         return TeacherResponse.from(teacher);
     }
 

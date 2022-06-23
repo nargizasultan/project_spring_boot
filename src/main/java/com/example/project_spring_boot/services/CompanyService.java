@@ -1,13 +1,12 @@
 package com.example.project_spring_boot.services;
 
 
-import com.example.project_spring_boot.dto.CompanyRequestDto;
-import com.example.project_spring_boot.dto.CompanyResponse;
-import com.example.project_spring_boot.dto.SimpleResponse;
+import com.example.project_spring_boot.dto.company.CompanyRequestDto;
+import com.example.project_spring_boot.dto.company.CompanyResponse;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
 import com.example.project_spring_boot.exceptions.CompanyNotFoundException;
 import com.example.project_spring_boot.models.Company;
 import com.example.project_spring_boot.repositories.CompanyRepository;
-import com.example.project_spring_boot.repositories.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

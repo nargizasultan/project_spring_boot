@@ -1,9 +1,9 @@
 package com.example.project_spring_boot.services;
 
 
-import com.example.project_spring_boot.dto.GroupRequestDto;
-import com.example.project_spring_boot.dto.GroupResponse;
-import com.example.project_spring_boot.dto.SimpleResponse;
+import com.example.project_spring_boot.dto.group.GroupRequestDto;
+import com.example.project_spring_boot.dto.group.GroupResponse;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
 import com.example.project_spring_boot.exceptions.GroupNotfoundException;
 import com.example.project_spring_boot.models.Course;
 import com.example.project_spring_boot.models.Group;
@@ -57,6 +57,8 @@ public class GroupService {
         groupToEdit.setGroupName(groupRequestDto.getGroupName());
         groupToEdit.setDateOfStart(groupRequestDto.getDateOfStart());
         groupToEdit.setDateOfFinish(groupRequestDto.getDateOfFinish());
+        List<Course> courseList = courseRepository.findAllById(groupRequestDto.getCoursesId());
+        groupToEdit.setCourses(courseList);
         return GroupResponse.from(groupToEdit);
 
 

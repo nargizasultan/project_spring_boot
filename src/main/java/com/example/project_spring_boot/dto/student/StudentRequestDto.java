@@ -1,4 +1,4 @@
-package com.example.project_spring_boot.dto;
+package com.example.project_spring_boot.dto.student;
 
 import com.example.project_spring_boot.enums.StudyFormat;
 import lombok.Getter;

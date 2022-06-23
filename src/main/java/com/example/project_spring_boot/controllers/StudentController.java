@@ -1,17 +1,23 @@
 package com.example.project_spring_boot.controllers;
 
-import com.example.project_spring_boot.dto.*;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
+import com.example.project_spring_boot.dto.student.StudentPaginationResponse;
+import com.example.project_spring_boot.dto.student.StudentRequestDto;
+import com.example.project_spring_boot.dto.student.StudentResponse;
 import com.example.project_spring_boot.services.StudentService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 @RestController
 @RequestMapping("/api/students")
 @RequiredArgsConstructor
 @CrossOrigin
+@PreAuthorize("hasAnyAuthority('ADMIN')")
+@Tag(name="Student API", description = "User with role admin  can add, update, delete or get all students")
 public class StudentController {
     private final StudentService studentService;
     @PostMapping("/save")

@@ -1,9 +1,9 @@
 package com.example.project_spring_boot.services;
 
-import com.example.project_spring_boot.dto.SimpleResponse;
-import com.example.project_spring_boot.dto.StudentPaginationResponse;
-import com.example.project_spring_boot.dto.StudentRequestDto;
-import com.example.project_spring_boot.dto.StudentResponse;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
+import com.example.project_spring_boot.dto.student.StudentPaginationResponse;
+import com.example.project_spring_boot.dto.student.StudentRequestDto;
+import com.example.project_spring_boot.dto.student.StudentResponse;
 import com.example.project_spring_boot.exceptions.GroupNotfoundException;
 import com.example.project_spring_boot.exceptions.StudentNotFoundException;
 import com.example.project_spring_boot.exceptions.TeacherNotFoundException;

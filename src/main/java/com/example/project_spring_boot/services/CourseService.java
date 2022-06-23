@@ -1,9 +1,9 @@
 package com.example.project_spring_boot.services;
 
 
-import com.example.project_spring_boot.dto.CourseRequestDto;
-import com.example.project_spring_boot.dto.CourseResponse;
-import com.example.project_spring_boot.dto.SimpleResponse;
+import com.example.project_spring_boot.dto.course.CourseRequestDto;
+import com.example.project_spring_boot.dto.course.CourseResponse;
+import com.example.project_spring_boot.dto.delete.SimpleResponse;
 
 import com.example.project_spring_boot.exceptions.CompanyNotFoundException;
 import com.example.project_spring_boot.exceptions.CourseNotFoundException;
@@ -12,7 +12,6 @@ import com.example.project_spring_boot.models.Course;
 
 import com.example.project_spring_boot.repositories.CompanyRepository;
 import com.example.project_spring_boot.repositories.CourseRepository;
-import com.example.project_spring_boot.repositories.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -61,6 +60,7 @@ public class CourseService {
         Course course1 = courseRepository.findById(id).orElseThrow();
         course1.setCourseName(courseRequestDto.getCourseName());
         course1.setDuration(courseRequestDto.getDuration());
+        course1.setCompany(companyRepository.findById(courseRequestDto.getCompanyId()).orElseThrow(CompanyNotFoundException::new));
         return CourseResponse.from(course1);
     }
 

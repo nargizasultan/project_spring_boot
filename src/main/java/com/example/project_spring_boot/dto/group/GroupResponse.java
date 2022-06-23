@@ -1,10 +1,8 @@
-package com.example.project_spring_boot.dto;
+package com.example.project_spring_boot.dto.group;
 
 import com.example.project_spring_boot.models.Group;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
